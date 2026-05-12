@@ -151,8 +151,7 @@ export default function AlumniDashboard() {
             </div>
 
             <div 
-              onClick={() => router.push('/jobs/post')}
-              className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow cursor-pointer"
+              className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow"
             >
               <div className="p-6">
                 <div className="flex items-center">
@@ -172,9 +171,15 @@ export default function AlumniDashboard() {
                 </div>
               </div>
               <div className="bg-gray-50 px-4 py-4 sm:px-6">
-                <div className="text-sm">
-                  <Link href="/jobs/post" className="font-medium text-blue-600 hover:text-blue-500">
+                <div className="text-sm space-y-1">
+                  <button
+                    onClick={() => router.push('/jobs/post')}
+                    className="font-medium text-blue-600 hover:text-blue-500 block text-left"
+                  >
                     Post New Job
+                  </button>
+                  <Link href="/jobs/applications" className="font-medium text-blue-600 hover:text-blue-500 block">
+                    Manage Applications
                   </Link>
                 </div>
               </div>

@@ -215,19 +215,13 @@ export default function JobBoard() {
 
                     <div className="flex space-x-2">
                       <button
-                        onClick={() => {
-                          // TODO: Implement job application
-                          alert('Job application feature coming soon!')
-                        }}
+                        onClick={() => router.push(`/jobs/apply/${job.id}`)}
                         className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium"
                       >
                         Apply Now
                       </button>
                       <button
-                        onClick={() => {
-                          // TODO: Implement job details view
-                          alert('Job details view coming soon!')
-                        }}
+                        onClick={() => router.push(`/jobs/apply/${job.id}`)}
                         className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 text-sm font-medium text-gray-700"
                       >
                         View Details
