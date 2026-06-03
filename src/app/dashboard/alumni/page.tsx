@@ -185,7 +185,10 @@ export default function AlumniDashboard() {
               </div>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow cursor-pointer">
+            <div 
+              onClick={() => router.push('/donate')}
+              className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow cursor-pointer"
+            >
               <div className="p-6">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
