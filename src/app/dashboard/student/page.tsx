@@ -29,7 +29,7 @@ export default function StudentDashboard() {
       .eq('user_id', user.id)
       .single()
 
-    if (profile?.role !== 'student') {
+    if (profile?.role !== 'student' && profile?.role !== 'admin') {
       router.push('/dashboard/alumni')
       return
     }
@@ -164,7 +164,7 @@ export default function StudentDashboard() {
               </div>
             </div>
 
-            <div 
+            <div
               onClick={() => router.push('/donate')}
               className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow cursor-pointer"
             >
@@ -184,6 +184,7 @@ export default function StudentDashboard() {
                 </div>
               </div>
             </div>
+
 
             <div className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow cursor-pointer">
               <div className="p-6">

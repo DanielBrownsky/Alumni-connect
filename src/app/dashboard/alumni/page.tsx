@@ -224,7 +224,7 @@ export default function AlumniDashboard() {
               </div>
             </div>
 
-            <div 
+            <div
               onClick={() => router.push('/profile')}
               className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow cursor-pointer"
             >
@@ -244,6 +244,7 @@ export default function AlumniDashboard() {
                 </div>
               </div>
             </div>
+
 
             <div className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow cursor-pointer">
               <div className="p-6">
