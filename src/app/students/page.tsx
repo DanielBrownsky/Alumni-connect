@@ -80,8 +80,8 @@ export default function StudentNetworkPage() {
     setFilteredStudents(filtered)
   }
 
-  const departments = [...new Set(students.map((s) => s.department))]
-  const graduationYears = [...new Set(students.map((s) => s.graduation_year))].sort((a, b) => b - a)
+  const departments = Array.from(new Set(students.map((s) => s.department)))
+  const graduationYears = Array.from(new Set(students.map((s) => s.graduation_year))).sort((a, b) => b - a)
 
   if (loading) {
     return (
@@ -95,10 +95,11 @@ export default function StudentNetworkPage() {
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex">
-              <Link href="/dashboard/alumni" className="flex items-center px-4 py-2 text-gray-700 hover:text-gray-900">
-                ← Back to Dashboard
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center">
+              <Link href="/dashboard/alumni" className="flex items-center text-gray-700 hover:text-gray-900">
+                <span className="md:hidden text-2xl">←</span>
+                <span className="hidden md:inline px-4 py-2">← Back to Dashboard</span>
               </Link>
             </div>
             <div className="flex items-center">
@@ -130,7 +131,7 @@ export default function StudentNetworkPage() {
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search by name or email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 />
               </div>
 
@@ -138,38 +139,44 @@ export default function StudentNetworkPage() {
                 <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-2">
                   Department
                 </label>
-                <select
+                <input
+                  type="text"
                   id="department"
                   value={departmentFilter}
                   onChange={(e) => setDepartmentFilter(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">All Departments</option>
+                  placeholder="Type department name..."
+                  list="departments"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                />
+                <datalist id="departments">
                   {departments.map((dept) => (
                     <option key={dept} value={dept}>
                       {dept}
                     </option>
                   ))}
-                </select>
+                </datalist>
               </div>
 
               <div>
                 <label htmlFor="graduationYear" className="block text-sm font-medium text-gray-700 mb-2">
                   Graduation Year
                 </label>
-                <select
+                <input
+                  type="text"
                   id="graduationYear"
                   value={graduationYearFilter}
                   onChange={(e) => setGraduationYearFilter(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">All Years</option>
+                  placeholder="Type graduation year..."
+                  list="graduationYears"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                />
+                <datalist id="graduationYears">
                   {graduationYears.map((year) => (
                     <option key={year} value={year}>
                       {year}
                     </option>
                   ))}
-                </select>
+                </datalist>
               </div>
             </div>
           </div>

@@ -1,8 +1,7 @@
 {
-  "/not-found": "app/not-found.js",
-  "/dashboard/alumni/page": "app/dashboard/alumni/page.js",
   "/auth/signin/page": "app/auth/signin/page.js",
   "/dashboard/page": "app/dashboard/page.js",
   "/dashboard/student/page": "app/dashboard/student/page.js",
-  "/students/page": "app/students/page.js"
+  "/students/page": "app/students/page.js",
+  "/dashboard/alumni/page": "app/dashboard/alumni/page.js"
 }
