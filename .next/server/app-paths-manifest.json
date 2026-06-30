@@ -1,9 +1,8 @@
 {
-  "/dashboard/student/page": "app/dashboard/student/page.js",
-  "/auth/signin/page": "app/auth/signin/page.js",
-  "/auth/signup/page": "app/auth/signup/page.js",
-  "/auth/verify-email/page": "app/auth/verify-email/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
+  "/not-found": "app/not-found.js",
   "/dashboard/alumni/page": "app/dashboard/alumni/page.js",
-  "/profile/page": "app/profile/page.js"
+  "/auth/signin/page": "app/auth/signin/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/student/page": "app/dashboard/student/page.js",
+  "/students/page": "app/students/page.js"
 }
