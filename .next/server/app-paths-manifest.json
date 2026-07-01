@@ -1,9 +1,9 @@
 {
   "/dashboard/alumni/page": "app/dashboard/alumni/page.js",
-  "/dashboard/student/page": "app/dashboard/student/page.js",
-  "/students/page": "app/students/page.js",
-  "/analytics/page": "app/analytics/page.js",
   "/donate/page": "app/donate/page.js",
-  "/jobs/my-applications/page": "app/jobs/my-applications/page.js",
-  "/jobs/page": "app/jobs/page.js"
+  "/mentorship/page": "app/mentorship/page.js",
+  "/mentorship/applications/page": "app/mentorship/applications/page.js",
+  "/jobs/applications/page": "app/jobs/applications/page.js",
+  "/jobs/page": "app/jobs/page.js",
+  "/jobs/post/page": "app/jobs/post/page.js"
 }
