@@ -65,7 +65,16 @@ export default function MentorshipPage() {
     if (error) {
       console.error('Error fetching mentors:', error)
     } else {
-      setMentors(data || [])
+      // Filter out incomplete profiles and remove duplicates by user_id
+      const completeMentors = data?.filter((mentor) =>
+        mentor.first_name && mentor.last_name && mentor.email
+      ) || []
+      
+      const uniqueMentors = completeMentors.filter((mentor, index, self) =>
+        index === self.findIndex((m) => m.user_id === mentor.user_id)
+      )
+      
+      setMentors(uniqueMentors)
     }
     setLoading(false)
   }

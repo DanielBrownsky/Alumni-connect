@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/dashboard/alumni/page": [
+    "/jobs/apply/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/alumni/page.js"
+      "static/chunks/app/jobs/apply/[id]/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -11,65 +11,35 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/auth/signin/page": [
+    "/jobs/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/auth/signin/page.js"
+      "static/chunks/app/jobs/page.js"
     ],
-    "/dashboard/page": [
+    "/dashboard/alumni/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/page.js"
-    ],
-    "/dashboard/student/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/student/page.js"
+      "static/chunks/app/dashboard/alumni/page.js"
     ],
     "/students/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/students/page.js"
     ],
-    "/analytics/page": [
+    "/jobs/applications/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/analytics/page.js"
-    ],
-    "/donate/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/donate/page.js"
+      "static/chunks/app/jobs/applications/page.js"
     ],
     "/jobs/my-applications/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/jobs/my-applications/page.js"
     ],
-    "/jobs/page": [
+    "/dashboard/student/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/jobs/page.js"
-    ],
-    "/mentorship/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/mentorship/page.js"
-    ],
-    "/mentorship/applications/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/mentorship/applications/page.js"
-    ],
-    "/jobs/applications/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/jobs/applications/page.js"
-    ],
-    "/jobs/post/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/jobs/post/page.js"
+      "static/chunks/app/dashboard/student/page.js"
     ]
   }
 }

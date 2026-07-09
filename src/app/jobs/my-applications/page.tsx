@@ -69,27 +69,25 @@ export default function MyApplications() {
   const fetchApplications = async () => {
     const { data, error } = await supabase
       .from('job_applications')
-      .select(`
-        *,
-        job_postings!job_applications_job_id_fkey (
-          title,
-          company,
-          location,
-          job_type
-        ),
-        profiles!job_applications_student_id_fkey (
-          first_name,
-          last_name,
-          email
-        )
-      `)
+      .select('*')
       .eq('student_id', userProfile.id)
       .order('created_at', { ascending: false })
 
     if (error) {
       console.error('Error fetching applications:', error)
     } else {
-      setApplications(data || [])
+      // Fetch job details separately for each application
+      const applicationsWithDetails = await Promise.all(
+        (data || []).map(async (app) => {
+          const { data: jobData } = await supabase
+            .from('job_postings')
+            .select('title, company, location, job_type')
+            .eq('id', app.job_id)
+            .single()
+          return { ...app, job_postings: jobData }
+        })
+      )
+      setApplications(applicationsWithDetails)
     }
   }
 
