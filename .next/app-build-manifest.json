@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/jobs/apply/[id]/page": [
+    "/admin/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/jobs/apply/[id]/page.js"
+      "static/chunks/app/admin/login/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -16,30 +16,35 @@
       "static/chunks/main-app.js",
       "static/chunks/app/jobs/page.js"
     ],
-    "/dashboard/alumni/page": [
+    "/jobs/apply/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/alumni/page.js"
+      "static/chunks/app/jobs/apply/[id]/page.js"
     ],
-    "/students/page": [
+    "/dashboard/student/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/students/page.js"
-    ],
-    "/jobs/applications/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/jobs/applications/page.js"
+      "static/chunks/app/dashboard/student/page.js"
     ],
     "/jobs/my-applications/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/jobs/my-applications/page.js"
     ],
-    "/dashboard/student/page": [
+    "/jobs/applications/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/student/page.js"
+      "static/chunks/app/jobs/applications/page.js"
+    ],
+    "/dashboard/alumni/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dashboard/alumni/page.js"
+    ],
+    "/jobs/my-jobs/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/jobs/my-jobs/page.js"
     ]
   }
 }

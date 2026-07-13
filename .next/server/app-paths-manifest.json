@@ -1,7 +1,8 @@
 {
-  "/jobs/apply/[id]/page": "app/jobs/apply/[id]/page.js",
-  "/jobs/page": "app/jobs/page.js",
-  "/dashboard/alumni/page": "app/dashboard/alumni/page.js",
+  "/admin/login/page": "app/admin/login/page.js",
+  "/dashboard/student/page": "app/dashboard/student/page.js",
   "/jobs/my-applications/page": "app/jobs/my-applications/page.js",
-  "/dashboard/student/page": "app/dashboard/student/page.js"
+  "/jobs/applications/page": "app/jobs/applications/page.js",
+  "/dashboard/alumni/page": "app/dashboard/alumni/page.js",
+  "/jobs/my-jobs/page": "app/jobs/my-jobs/page.js"
 }

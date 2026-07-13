@@ -65,12 +65,12 @@ export default function JobApplications() {
 
   const fetchApplications = async () => {
     // First get all jobs posted by this alumni
-    const { data: userJobs } = await supabase
+    const { data: userJobs, error: jobsError } = await supabase
       .from('job_postings')
       .select('id')
       .eq('posted_by', userProfile.id)
 
-    if (!userJobs) {
+    if (!userJobs || userJobs.length === 0) {
       setApplications([])
       return
     }
@@ -80,24 +80,32 @@ export default function JobApplications() {
     // Then get all applications for those jobs
     const { data, error } = await supabase
       .from('job_applications')
-      .select(`
-        *,
-        job_postings!job_applications_job_id_fkey (
-          title,
-          company
-        ),
-        profiles!job_applications_student_id_fkey (
-          first_name,
-          last_name
-        )
-      `)
+      .select('*')
       .in('job_id', jobIds)
       .order('created_at', { ascending: false })
 
     if (error) {
       console.error('Error fetching applications:', error)
     } else {
-      setApplications(data || [])
+      // Fetch job details and student profiles separately for each application
+      const applicationsWithDetails = await Promise.all(
+        (data || []).map(async (app) => {
+          const [jobData, profileData] = await Promise.all([
+            supabase
+              .from('job_postings')
+              .select('title, company')
+              .eq('id', app.job_id)
+              .single(),
+            supabase
+              .from('profiles')
+              .select('first_name, last_name')
+              .eq('id', app.student_id)
+              .single()
+          ])
+          return { ...app, job_postings: jobData.data, profiles: profileData.data }
+        })
+      )
+      setApplications(applicationsWithDetails)
     }
   }
 
@@ -160,10 +168,10 @@ export default function JobApplications() {
                   Post New Job
                 </button>
                 <button
-                  onClick={() => router.push('/jobs')}
+                  onClick={() => router.push('/jobs/my-jobs')}
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                 >
-                  Browse Jobs
+                  My Jobs
                 </button>
               </div>
             </div>
