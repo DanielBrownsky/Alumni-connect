@@ -4,9 +4,18 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+interface Activity {
+  id: string
+  type: 'mentorship' | 'job_application'
+  description: string
+  status?: string
+  created_at: string
+}
+
 export default function StudentDashboard() {
   const [user, setUser] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
+  const [recentActivities, setRecentActivities] = useState<Activity[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
   const supabase = createClientComponentClient()
@@ -14,6 +23,12 @@ export default function StudentDashboard() {
   useEffect(() => {
     getUserAndProfile()
   }, [])
+
+  useEffect(() => {
+    if (profile) {
+      fetchRecentActivities()
+    }
+  }, [profile])
 
   const getUserAndProfile = async () => {
     const { data: { user } } = await supabase.auth.getUser()
@@ -37,6 +52,69 @@ export default function StudentDashboard() {
     setUser(user)
     setProfile(profile)
     setLoading(false)
+  }
+
+  const fetchRecentActivities = async () => {
+    const activities: Activity[] = []
+
+    // Fetch mentorship requests
+    const { data: mentorshipData } = await supabase
+      .from('mentorship_requests')
+      .select('*')
+      .eq('student_email', profile.email)
+      .order('created_at', { ascending: false })
+      .limit(5)
+
+    if (mentorshipData) {
+      mentorshipData.forEach((req: any) => {
+        activities.push({
+          id: req.id,
+          type: 'mentorship',
+          description: `Mentorship request to ${req.mentor_email}`,
+          status: req.status,
+          created_at: req.created_at
+        })
+      })
+    }
+
+    // Fetch job applications
+    const { data: applicationsData } = await supabase
+      .from('job_applications')
+      .select('*')
+      .eq('student_id', profile.id)
+      .order('created_at', { ascending: false })
+      .limit(5)
+
+    if (applicationsData) {
+      // Fetch job titles for applications
+      const applicationsWithTitles = await Promise.all(
+        applicationsData.map(async (app: any) => {
+          const { data: jobData } = await supabase
+            .from('job_postings')
+            .select('title')
+            .eq('id', app.job_id)
+            .single()
+          return { ...app, job_title: jobData?.title }
+        })
+      )
+
+      applicationsWithTitles.forEach((app: any) => {
+        activities.push({
+          id: app.id,
+          type: 'job_application',
+          description: `Applied for ${app.job_title}`,
+          status: app.status,
+          created_at: app.created_at
+        })
+      })
+    }
+
+    // Sort all activities by date and take the most recent 10
+    const sortedActivities = activities
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      .slice(0, 10)
+
+    setRecentActivities(sortedActivities)
   }
 
   if (loading) {
@@ -229,9 +307,51 @@ export default function StudentDashboard() {
             <h3 className="text-lg font-medium text-gray-900">Recent Activity</h3>
             <div className="mt-4 bg-white shadow overflow-hidden sm:rounded-md">
               <div className="px-4 py-5 sm:p-6">
-                <p className="text-sm text-gray-600">
-                  Your mentorship applications and job searches will appear here.
-                </p>
+                {recentActivities.length === 0 ? (
+                  <p className="text-sm text-gray-600">
+                    No recent activity yet.
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {recentActivities.map((activity) => (
+                      <div key={activity.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                            activity.type === 'mentorship' ? 'bg-blue-100' : 'bg-green-100'
+                          }`}>
+                            {activity.type === 'mentorship' ? (
+                              <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                              </svg>
+                            ) : (
+                              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                              </svg>
+                            )}
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-900">
+                              {activity.description}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {new Date(activity.created_at).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+                        {activity.status && (
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                            activity.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                            activity.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                            'bg-blue-100 text-blue-800'
+                          }`}>
+                            {activity.status}
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
