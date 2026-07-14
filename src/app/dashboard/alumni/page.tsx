@@ -14,10 +14,18 @@ interface MentorshipRequest {
   created_at: string
 }
 
+interface Activity {
+  id: string
+  type: 'mentorship' | 'job_posting' | 'job_application'
+  description: string
+  status?: string
+  created_at: string
+}
+
 export default function AlumniDashboard() {
   const [user, setUser] = useState<any>(null)
   const [userProfile, setUserProfile] = useState<any>(null)
-  const [recentApplications, setRecentApplications] = useState<MentorshipRequest[]>([])
+  const [recentActivities, setRecentActivities] = useState<Activity[]>([])
   const [jobCount, setJobCount] = useState(0)
   const [loading, setLoading] = useState(true)
   const router = useRouter()
@@ -29,24 +37,101 @@ export default function AlumniDashboard() {
 
   useEffect(() => {
     if (userProfile) {
-      fetchRecentApplications()
+      fetchRecentActivities()
       fetchJobCount()
     }
   }, [userProfile])
 
-  const fetchRecentApplications = async () => {
-    const { data, error } = await supabase
+  const fetchRecentActivities = async () => {
+    const activities: Activity[] = []
+
+    // Fetch mentorship requests
+    const { data: mentorshipData } = await supabase
       .from('mentorship_requests')
       .select('*')
       .eq('mentor_email', userProfile.email)
       .order('created_at', { ascending: false })
       .limit(5)
 
-    if (error) {
-      console.error('Error fetching recent applications:', error)
-    } else {
-      setRecentApplications(data || [])
+    if (mentorshipData) {
+      mentorshipData.forEach((req: any) => {
+        activities.push({
+          id: req.id,
+          type: 'mentorship',
+          description: `Mentorship request from ${req.student_email}`,
+          status: req.status,
+          created_at: req.created_at
+        })
+      })
     }
+
+    // Fetch job postings
+    const { data: jobsData } = await supabase
+      .from('job_postings')
+      .select('*')
+      .eq('posted_by', userProfile.id)
+      .order('created_at', { ascending: false })
+      .limit(5)
+
+    if (jobsData) {
+      jobsData.forEach((job: any) => {
+        activities.push({
+          id: job.id,
+          type: 'job_posting',
+          description: `Posted job: ${job.title}`,
+          status: job.is_active ? 'active' : 'inactive',
+          created_at: job.created_at
+        })
+      })
+    }
+
+    // Fetch job applications
+    const { data: jobsDataForApps } = await supabase
+      .from('job_postings')
+      .select('id')
+      .eq('posted_by', userProfile.id)
+
+    const jobIds = jobsDataForApps?.map((job: any) => job.id) || []
+
+    if (jobIds.length > 0) {
+      const { data: applicationsData } = await supabase
+        .from('job_applications')
+        .select('*')
+        .in('job_id', jobIds)
+        .order('created_at', { ascending: false })
+        .limit(5)
+
+      if (applicationsData) {
+        // Fetch job titles for applications
+        const applicationsWithTitles = await Promise.all(
+          applicationsData.map(async (app: any) => {
+            const { data: jobData } = await supabase
+              .from('job_postings')
+              .select('title')
+              .eq('id', app.job_id)
+              .single()
+            return { ...app, job_title: jobData?.title }
+          })
+        )
+
+        applicationsWithTitles.forEach((app: any) => {
+          activities.push({
+            id: app.id,
+            type: 'job_application',
+            description: `Application for ${app.job_title} from ${app.student_email}`,
+            status: app.status,
+            created_at: app.created_at
+          })
+        })
+      }
+    }
+
+    // Sort all activities by date and take the most recent 10
+    const sortedActivities = activities
+      .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      .slice(0, 10)
+
+    setRecentActivities(sortedActivities)
   }
 
   const fetchJobCount = async () => {
@@ -275,29 +360,55 @@ export default function AlumniDashboard() {
             <h3 className="text-lg font-medium text-gray-900">Recent Activity</h3>
             <div className="mt-4 bg-white shadow overflow-hidden sm:rounded-md">
               <div className="px-4 py-5 sm:p-6">
-                {recentApplications.length === 0 ? (
+                {recentActivities.length === 0 ? (
                   <p className="text-sm text-gray-600">
-                    No students have applied for mentorship with you yet.
+                    No recent activity yet.
                   </p>
                 ) : (
                   <div className="space-y-3">
-                    {recentApplications.map((application) => (
-                      <div key={application.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">
-                            New mentorship request from {application.student_email}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {new Date(application.created_at).toLocaleDateString()}
-                          </p>
+                    {recentActivities.map((activity) => (
+                      <div key={activity.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div className="flex items-center space-x-3">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                            activity.type === 'mentorship' ? 'bg-green-100' :
+                            activity.type === 'job_posting' ? 'bg-blue-100' :
+                            'bg-purple-100'
+                          }`}>
+                            {activity.type === 'mentorship' ? (
+                              <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                              </svg>
+                            ) : activity.type === 'job_posting' ? (
+                              <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                              </svg>
+                            ) : (
+                              <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                            )}
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium text-gray-900">
+                              {activity.description}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {new Date(activity.created_at).toLocaleDateString()}
+                            </p>
+                          </div>
                         </div>
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          application.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                          application.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                          'bg-red-100 text-red-800'
-                        }`}>
-                          {application.status}
-                        </span>
+                        {activity.status && (
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            activity.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                            activity.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                            activity.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                            activity.status === 'active' ? 'bg-green-100 text-green-800' :
+                            activity.status === 'inactive' ? 'bg-gray-100 text-gray-800' :
+                            'bg-blue-100 text-blue-800'
+                          }`}>
+                            {activity.status}
+                          </span>
+                        )}
                       </div>
                     ))}
                   </div>

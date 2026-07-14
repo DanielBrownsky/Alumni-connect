@@ -84,14 +84,18 @@ export default function AnalyticsPage() {
     // Fetch job stats
     const { data: jobsData } = await supabase
       .from('job_postings')
-      .select('*, job_applications(*)')
+      .select('id, is_active')
       .eq('posted_by', userProfile.id)
 
-    const totalApplications = jobsData && jobsData.length > 0
-      ? jobsData.reduce((sum: number, job: any) => {
-          return sum + (job.job_applications?.length || 0)
-        }, 0)
-      : 0
+    const jobIds = jobsData?.map((job: any) => job.id) || []
+
+    // Fetch applications for these jobs
+    const { data: applicationsData } = await supabase
+      .from('job_applications')
+      .select('*')
+      .in('job_id', jobIds)
+
+    const totalApplications = applicationsData?.length || 0
 
     const jobStats = {
       totalJobs: jobsData?.length || 0,
