@@ -1,7 +1,9 @@
 {
+  "/not-found": "app/not-found.js",
   "/dashboard/alumni/page": "app/dashboard/alumni/page.js",
-  "/jobs/page": "app/jobs/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
+  "/mentorship/applications/page": "app/mentorship/applications/page.js",
+  "/mentorship/page": "app/mentorship/page.js",
+  "/messages/[id]/page": "app/messages/[id]/page.js",
   "/dashboard/student/page": "app/dashboard/student/page.js",
-  "/auth/signin/page": "app/auth/signin/page.js"
+  "/messages/page": "app/messages/page.js"
 }

@@ -261,6 +261,12 @@ export default function MentorshipPage() {
                       >
                         Apply for Mentorship
                       </button>
+                      <button
+                        onClick={() => router.push(`/messages/${mentor.id}`)}
+                        className="flex-1 bg-teal-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-teal-700 transition-colors"
+                      >
+                        Send Message
+                      </button>
                       {mentor.linkedin_url && (
                         <a
                           href={mentor.linkedin_url}
