@@ -18,6 +18,7 @@ interface Mentor {
   graduation_year?: number
   degree?: string
   department?: string
+  profile_picture?: string
   mentorship_areas?: string[]
   available: boolean
 }
@@ -197,9 +198,17 @@ export default function MentorshipPage() {
                 <div key={mentor.id} className="bg-white overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow">
                   <div className="p-6">
                     <div className="flex items-center mb-4">
-                      <div className="h-12 w-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
-                        {mentor.first_name[0]}{mentor.last_name[0]}
-                      </div>
+                      {mentor.profile_picture ? (
+                        <img
+                          src={mentor.profile_picture}
+                          alt={`${mentor.first_name} ${mentor.last_name}`}
+                          className="h-12 w-12 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div className="h-12 w-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold">
+                          {mentor.first_name[0]}{mentor.last_name[0]}
+                        </div>
+                      )}
                       <div className="ml-4">
                         <h3 className="text-lg font-medium text-gray-900">
                           {mentor.first_name} {mentor.last_name}

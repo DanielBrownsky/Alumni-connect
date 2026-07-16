@@ -10,6 +10,7 @@ interface Conversation {
   first_name: string
   last_name: string
   email: string
+  profile_picture?: string
   last_message: string
   last_message_time: string
   unread_count: number
@@ -104,6 +105,7 @@ export default function MessagesPage() {
           first_name: profile.first_name,
           last_name: profile.last_name,
           email: profile.email,
+          profile_picture: profile.profile_picture,
           last_message: lastMessage?.content || '',
           last_message_time: lastMessage?.created_at || '',
           unread_count: count || 0
@@ -166,9 +168,17 @@ export default function MessagesPage() {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
-                          {conversation.first_name?.[0]}{conversation.last_name?.[0]}
-                        </div>
+                        {conversation.profile_picture ? (
+                          <img
+                            src={conversation.profile_picture}
+                            alt={`${conversation.first_name} ${conversation.last_name}`}
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+                            {conversation.first_name?.[0]}{conversation.last_name?.[0]}
+                          </div>
+                        )}
                         <div>
                           <div className="flex items-center space-x-2">
                             <p className="text-sm font-medium text-gray-900">

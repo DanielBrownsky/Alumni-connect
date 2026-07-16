@@ -17,6 +17,7 @@ interface StudentProfile {
   bio?: string
   linkedin_url?: string
   github_url?: string
+  profile_picture?: string
 }
 
 export default function StudentNetworkPage() {
@@ -203,9 +204,17 @@ export default function StudentNetworkPage() {
                   <div className="p-6">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center">
-                        <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
-                          {student.first_name[0]}{student.last_name[0]}
-                        </div>
+                        {student.profile_picture ? (
+                          <img
+                            src={student.profile_picture}
+                            alt={`${student.first_name} ${student.last_name}`}
+                            className="w-12 h-12 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            {student.first_name[0]}{student.last_name[0]}
+                          </div>
+                        )}
                         <div className="ml-4">
                           <h3 className="text-lg font-medium text-gray-900">
                             {student.first_name} {student.last_name}

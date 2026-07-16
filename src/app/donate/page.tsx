@@ -53,8 +53,6 @@ export default function DonatePage() {
       status: 'pending'
     }
 
-    console.log('Donation data:', donationData)
-
     const { error } = await supabase
       .from('donations')
       .insert(donationData)

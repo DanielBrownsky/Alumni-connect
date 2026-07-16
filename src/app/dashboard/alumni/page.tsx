@@ -190,6 +190,17 @@ export default function AlumniDashboard() {
               <h1 className="text-xl font-semibold text-gray-900">Alumni Dashboard</h1>
             </div>
             <div className="flex items-center space-x-4">
+              {userProfile?.profile_picture ? (
+                <img
+                  src={userProfile.profile_picture}
+                  alt="Profile"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+                  {userProfile?.first_name?.[0]}{userProfile?.last_name?.[0]}
+                </div>
+              )}
               <span className="text-sm text-gray-700">
                 Welcome, {userProfile?.first_name || user?.email}
               </span>

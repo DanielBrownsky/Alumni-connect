@@ -3,6 +3,7 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { uploadProfilePicture } from '@/lib/upload-image'
 
 interface StudentProfile {
   id: string
@@ -17,7 +18,7 @@ interface StudentProfile {
   interests?: string[]
   bio?: string
   linkedin_url?: string
-  profile_image_url?: string
+  profile_picture?: string
   looking_for_mentorship?: boolean
   job_seeking?: boolean
 }
@@ -26,6 +27,7 @@ export default function StudentProfileForm() {
   const [profile, setProfile] = useState<StudentProfile | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [message, setMessage] = useState('')
   const [skills, setSkills] = useState('')
   const [interests, setInterests] = useState('')
@@ -65,6 +67,26 @@ export default function StudentProfileForm() {
     setLoading(false)
   }
 
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !profile) return
+
+    setUploading(true)
+    setMessage('')
+
+    try {
+      const publicUrl = await uploadProfilePicture(file, profile.id)
+      
+      setProfile({ ...profile, profile_picture: publicUrl })
+      setMessage('Profile picture uploaded successfully!')
+    } catch (error) {
+      console.error('Error uploading image:', error)
+      setMessage('Error uploading profile picture')
+    }
+
+    setUploading(false)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!profile) return
@@ -84,6 +106,7 @@ export default function StudentProfileForm() {
         interests: interests.split(',').map(i => i.trim()).filter(i => i),
         bio: profile.bio,
         linkedin_url: profile.linkedin_url,
+        profile_picture: profile.profile_picture,
         looking_for_mentorship: profile.looking_for_mentorship,
         job_seeking: profile.job_seeking
       })
@@ -140,6 +163,45 @@ export default function StudentProfileForm() {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="flex items-center space-x-6">
+                <div className="relative">
+                  {profile.profile_picture ? (
+                    <img
+                      src={profile.profile_picture}
+                      alt="Profile"
+                      className="h-24 w-24 rounded-full object-cover border-2 border-gray-300"
+                    />
+                  ) : (
+                    <div className="h-24 w-24 rounded-full bg-gray-300 flex items-center justify-center">
+                      <span className="text-gray-500 text-2xl">
+                        {profile.first_name[0]}{profile.last_name[0]}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <label htmlFor="profile_picture" className="block text-sm font-medium text-gray-700">
+                    Profile Picture
+                  </label>
+                  <input
+                    type="file"
+                    id="profile_picture"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={uploading}
+                    className="mt-1 block w-full text-sm text-gray-500
+                      file:mr-4 file:py-2 file:px-4
+                      file:rounded-full file:border-0
+                      file:text-sm file:font-semibold
+                      file:bg-blue-50 file:text-blue-700
+                      hover:file:bg-blue-100"
+                  />
+                  {uploading && (
+                    <p className="mt-1 text-sm text-gray-500">Uploading...</p>
+                  )}
+                </div>
+              </div>
+
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                 <div>
                   <label htmlFor="first_name" className="block text-sm font-medium text-gray-700">
