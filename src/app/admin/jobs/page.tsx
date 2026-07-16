@@ -116,7 +116,10 @@ export default function AdminJobs() {
                 {userProfile?.first_name || user?.email}
               </span>
               <button
-                onClick={() => supabase.auth.signOut()}
+                onClick={async () => {
+                  await supabase.auth.signOut()
+                  router.push('/')
+                }}
                 className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
               >
                 Sign Out
