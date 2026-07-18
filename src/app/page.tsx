@@ -11,7 +11,7 @@ export default function Home() {
 
         <section className="mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-semibold mb-4">Welcome to Your Alumni Network</h2>
+            <h2 className="text-3xl font-semibold mb-4 text-gray-900">Welcome to Your Alumni Network</h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
               Build meaningful connections with fellow alumni, find mentors, share opportunities, 
               and contribute to our institution's growth.
