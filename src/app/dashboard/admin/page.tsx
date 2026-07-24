@@ -95,12 +95,30 @@ export default function AdminDashboard() {
               <h1 className="text-2xl font-bold text-gray-900">Admin Dashboard</h1>
               <p className="text-sm text-gray-600">Manage your alumni community</p>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
               <Link
                 href="/dashboard/admin/users"
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
               >
-                Manage Users
+                Users
+              </Link>
+              <Link
+                href="/dashboard/admin/mentorship"
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+              >
+                Mentorship
+              </Link>
+              <Link
+                href="/dashboard/admin/jobs"
+                className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors"
+              >
+                Jobs
+              </Link>
+              <Link
+                href="/dashboard/admin/donations"
+                className="px-4 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors"
+              >
+                Donations
               </Link>
               <Link
                 href="/dashboard/admin/settings"
@@ -209,7 +227,7 @@ export default function AdminDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Link
             href="/dashboard/admin/users"
             className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow"
@@ -225,6 +243,63 @@ export default function AdminDashboard() {
               <div className="ml-4">
                 <h3 className="text-lg font-medium text-gray-900">Manage Users</h3>
                 <p className="text-sm text-gray-600">View and manage all registered users</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            href="/dashboard/admin/mentorship"
+            className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow"
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Mentorship Requests</h3>
+                <p className="text-sm text-gray-600">Manage student mentorship requests</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            href="/dashboard/admin/jobs"
+            className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow"
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Job Postings</h3>
+                <p className="text-sm text-gray-600">Manage alumni job opportunities</p>
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            href="/dashboard/admin/donations"
+            className="bg-white rounded-lg shadow p-6 hover:shadow-md transition-shadow"
+          >
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                  <svg className="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s-1.343 2-3 2 .895 3 2 3 1.343 2 3-2 .895-3-2-3 1.343-2 3-2zm0 6c-1.657 0-3 .895-3 2s-1.343 2-3 2 .895 3 2 3 1.343 2 3-2 .895-3-2-3 1.343-2 3-2zm6 0c-1.657 0-3 .895-3 2s-1.343 2-3 2 .895 3 2 3 1.343 2 3-2 .895-3-2-3 1.343-2 3-2zm-6 6c-1.657 0-3 .895-3 2s-1.343 2-3 2 .895 3 2 3 1.343 2 3-2 .895-3-2-3 1.343-2 3-2zm6 0c-1.657 0-3 .895-3 2s-1.343 2-3 2 .895 3 2 3 1.343 2 3-2 .895-3-2-3 1.343-2 3-2z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="ml-4">
+                <h3 className="text-lg font-medium text-gray-900">Donations</h3>
+                <p className="text-sm text-gray-600">Track and manage platform donations</p>
               </div>
             </div>
           </Link>
