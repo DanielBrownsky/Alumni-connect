@@ -24,7 +24,9 @@ export default function Dashboard() {
         .eq('user_id', user.id)
         .single()
 
-      if (profile?.role === 'alumni') {
+      if (profile?.role === 'admin') {
+        router.push('/dashboard/admin')
+      } else if (profile?.role === 'alumni') {
         router.push('/dashboard/alumni')
       } else if (profile?.role === 'student') {
         router.push('/dashboard/student')

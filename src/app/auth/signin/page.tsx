@@ -19,15 +19,25 @@ export default function SignInPage() {
           <SignInForm />
         </div>
         
-        <p className="mt-6 text-center text-sm text-gray-600">
-          Don't have an account?{' '}
-          <Link 
-            href="/auth/signup" 
-            className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
-          >
-            Sign up for free
-          </Link>
-        </p>
+        <div className="mt-6 text-center text-sm text-gray-600 space-y-2">
+          <div>
+            <Link 
+              href="/auth/reset-password" 
+              className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+            >
+              Forgot your password?
+            </Link>
+          </div>
+          <div>
+            Don't have an account?{' '}
+            <Link 
+              href="/auth/signup" 
+              className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+            >
+              Sign up for free
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   )
