@@ -144,7 +144,7 @@ export default function AdminUsersPage() {
                 id="roleFilter"
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
               >
                 <option value="all">All Roles</option>
                 <option value="student">Students</option>
@@ -239,7 +239,7 @@ export default function AdminUsersPage() {
                         <select
                           value={user.role}
                           onChange={(e) => handleRoleChange(user.user_id, e.target.value)}
-                          className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                         >
                           <option value="student">Student</option>
                           <option value="alumni">Alumni</option>

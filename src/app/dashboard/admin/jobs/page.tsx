@@ -157,7 +157,7 @@ export default function AdminJobsPage() {
               id="statusFilter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -227,7 +227,7 @@ export default function AdminJobsPage() {
                         <select
                           value={job.status}
                           onChange={(e) => handleStatusUpdate(job.id, e.target.value)}
-                          className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                         >
                           <option value="active">Active</option>
                           <option value="pending">Pending</option>

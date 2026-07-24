@@ -157,7 +157,7 @@ export default function AdminDonationsPage() {
               id="statusFilter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
             >
               <option value="all">All Status</option>
               <option value="completed">Completed</option>
@@ -221,7 +221,7 @@ export default function AdminDonationsPage() {
                         <select
                           value={donation.status}
                           onChange={(e) => handleStatusUpdate(donation.id, e.target.value)}
-                          className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                         >
                           <option value="completed">Completed</option>
                           <option value="pending">Pending</option>

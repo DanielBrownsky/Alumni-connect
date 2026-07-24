@@ -157,7 +157,7 @@ export default function AdminMentorshipPage() {
               id="statusFilter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
             >
               <option value="all">All Status</option>
               <option value="pending">Pending</option>
@@ -222,7 +222,7 @@ export default function AdminMentorshipPage() {
                         <select
                           value={request.status}
                           onChange={(e) => handleStatusUpdate(request.id, e.target.value)}
-                          className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="text-sm border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                         >
                           <option value="pending">Pending</option>
                           <option value="accepted">Accepted</option>
