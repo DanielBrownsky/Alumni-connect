@@ -41,9 +41,9 @@ export default function AdminJobsPage() {
 
   const fetchJobs = async () => {
     try {
-      // This is a placeholder - you'll need to adjust based on your actual jobs table structure
+      // Use the correct table name 'job_postings' based on your existing job system
       const { data, error } = await supabase
-        .from('jobs')
+        .from('job_postings')
         .select('*')
         .order('created_at', { ascending: false })
 
